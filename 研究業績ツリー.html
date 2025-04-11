@@ -1,0 +1,907 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>研究業績ツリー</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.css">
+    <style>
+        .nodeExample1 {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background: #fefefe;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">研究業績ツリー</h2>
+    <div id="tree-simple" style="width:100%; height:1000px;"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.min.js"></script>
+    <script>
+        const chart_config = {
+  "chart": {
+    "container": "#tree-simple",
+    "node": {
+      "HTMLclass": "nodeExample1"
+    },
+    "animation": {
+      "nodeAnimation": "easeOutBounce",
+      "nodeSpeed": 700,
+      "connectorsAnimation": "bounce",
+      "connectorsSpeed": 700
+    }
+  },
+  "nodeStructure": {
+    "text": {
+      "name": "研究業績"
+    },
+    "children": [
+      {
+        "text": {
+          "name": "2025"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "地理情報と言語データの融合分析：geoNLPを用いた地域レビ..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2025_e59cb0e79086e68385e5a0b1e381a8",
+            "data-achievement": "地理情報と言語データの融合分析：geoNLPを用いた地域レビュー解析, 企画立案・運営等, 立教大学社会情報教育研究センター (立教大学) , 2025年6月24日"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2024"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "Iwasaki..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2024_4977617361",
+            "data-achievement": "Iwasaki, Nobusuke, Onohara, Ayaka, Exploring Segment Anything Model's Potential in Geospatial Data: Case Studies for Landslide and Forest Canopy Detection, FOSS4G-Asia 2024, 2024年12月16日 FOSS4G-Asia"
+          },
+          {
+            "text": {
+              "name": "小野原 彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2024_e5b08fe9878ee58e9f20e5bda9",
+            "data-achievement": "小野原 彩香, 大内 啓樹,⾳声から伺えるヒトが環境を求める感情的動機の解明とその進化的背景, 第17回日本行動進化学会大会 2024年12月8日 日本行動進化学会"
+          },
+          {
+            "text": {
+              "name": "Takuya Takahashi..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2024_54616b7579",
+            "data-achievement": "Takuya Takahashi, Ayaka Onohara, Yasuo Ihara, Bayesian phylogenetic analysis of pitch-accent systems based on accentual class merger: a new method applied to Japanese dialects,Journal of Language Evolution 8(2) 169-191, 2024年7月22日"
+          },
+          {
+            "text": {
+              "name": "生成系AIとGoogle colaboratoryを用いたe..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2024_e7949fe68890e7b3bb4149",
+            "data-achievement": "生成系AIとGoogle colaboratoryを用いたe-Stat APIの使い方, 企画立案・運営等, 立教大学社会情報教育研究センター (立教大学),  2024年6月27日"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2024_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 対話型AIモデル並びにAI音声を活用した教育コンテンツ作成 ―AI技術の新たな展開―, 社会と統計 (10) 27-44 2024年2月  "
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2023"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "岩崎 亘典..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_e5b2a9e5b48e20e4ba98e585b8",
+            "data-achievement": "岩崎 亘典, 田中 聡久, 小野原 彩香, 林 和則, 鹿取 みゆき, 小口 高, 機械学習を用いたワイン用ブドウ栽培適地の推定, GIS-理論と応用 31(2) 78-78, 2023年12月 "
+          },
+          {
+            "text": {
+              "name": "岩崎亘典..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_e5b2a9e5b48ee4ba98e585b82c",
+            "data-achievement": "岩崎亘典, 田中聡久, 小野原彩香, 林和則, 鹿取みゆき, 小口高, 機械学習を用いたワイン用ブドウ栽培適地の推定, 地理情報システム学会講演論文集 2023, 2023年10月"
+          },
+          {
+            "text": {
+              "name": "「初/中/上級レベル別オープンデータの入手先」Pythonで..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_e3808ce5889d2fe4b8ad2f",
+            "data-achievement": "「初/中/上級レベル別オープンデータの入手先」Pythonでデータサイエンス 第3部 データ活用のための基礎知識 2023年10月号\n岩崎亘典, 小野原彩香 (担当:共著)\nCQ出版 2023年8月25日"
+          },
+          {
+            "text": {
+              "name": "Google colaboratoryを用いたe-Stat ..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_476f6f676c",
+            "data-achievement": "Google colaboratoryを用いたe-Stat APIの使い方, 企画立案・運営等, 立教大学社会情報教育研究センター (立教大学),  2023年6月20日"
+          },
+          {
+            "text": {
+              "name": "「地図はデータ・サイエンス！ 私も地図マスター 第5回 ワイ..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_e3808ce59cb0e59bb3e381afe38387",
+            "data-achievement": "「地図はデータ・サイエンス！ 私も地図マスター 第5回 ワインの味と品質，気象条件の関係」. Interface 別冊付録 教科書と設計現場とのインターフェース プログラミング学園 Python部2023年7月号\n小野原彩香, 岩崎亘典 (担当:共著)\nCQ出版 2023年5月25日"
+          },
+          {
+            "text": {
+              "name": "「地図はデータ・サイエンス！ 私も地図マスター 第4回 2つ..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_e3808ce59cb0e59bb3e381afe38387",
+            "data-achievement": "「地図はデータ・サイエンス！ 私も地図マスター 第4回 2つの統計情報を同時に地図上で確認する」. Interface 別冊付録 教科書と設計現場とのインターフェース プログラミング学園 Python部2023年5月号\n小野原彩香, 岩崎亘典 (担当:共著)\nCQ出版 2023年3月25日"
+          },
+          {
+            "text": {
+              "name": "岩崎亘典..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_e5b2a9e5b48ee4ba98e585b82c",
+            "data-achievement": "岩崎亘典, 小野原彩香, 安達はるか, 野村英樹, Python を利⽤した地理総合実習コンテンツの作成, 日本地理学会発表要旨集 2023s P007, 2023年3月"
+          },
+          {
+            "text": {
+              "name": "「地理はデータ・サイエンス！ 私も地図マスター 第3回 国勢..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2023_e3808ce59cb0e79086e381afe38387",
+            "data-achievement": "「地理はデータ・サイエンス！ 私も地図マスター 第3回 国勢調査の人口分布データを入手して統計地図を作ってみよう」Interface 別冊付録 教科書と設計現場とのインターフェース プログラミング学園Python部2023年3月号\n小野原彩香, 岩崎亘典 (担当:共著)\nCQ出版 2023年1月25日"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2022"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "岩崎亘典..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_e5b2a9e5b48ee4ba98e585b82c",
+            "data-achievement": "岩崎亘典, 林 和則, 田中聡久, 鹿取みゆき, 小野原彩香, 小口 高, スマート風土産業 －ワイン用ブドウの栽培適地評価を例として－, 一般社団法人フードビジネス推進機構第4回フードビジネス研究会 2022年12月12日"
+          },
+          {
+            "text": {
+              "name": "岩崎亘典..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_e5b2a9e5b48ee4ba98e585b82c",
+            "data-achievement": "岩崎亘典, 小野原彩香 (担当:共著), 「地理はデータ・サイエンス！ 私も地図マスター 第1回 地図の世界へようこそ」Interface 別冊付録・プログラミング学園 教科書と設計現場とのインターフェース Python部2022年11月号, 2022年9月24日"
+          },
+          {
+            "text": {
+              "name": "岩崎亘典..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_e5b2a9e5b48ee4ba98e585b82c",
+            "data-achievement": "岩崎亘典, 小野原彩香 (担当:共著), 「地理はデータ・サイエンス！ 私も地図マスター 第2回 地図上の直線は本当に最短距離か？」Interface 別冊付録・プログラミング学園 教科書と設計現場とのインターフェース Python部2023年1月号, CQ出版 2022年11月25日"
+          },
+          {
+            "text": {
+              "name": "Takuya Takahashi..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_54616b7579",
+            "data-achievement": "Takuya Takahashi, Ayaka Onohara, Yasuo Ihara, Inferring the temporal and spatial evolution of accent systems in Japanese dialects: a phylogeographic approach , Joint Conference on Language Evolution, 05-09/09/2022."
+          },
+          {
+            "text": {
+              "name": "Takuya Takahashi..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_54616b7579",
+            "data-achievement": "Takuya Takahashi, Ayaka Onohara, Yasuo Ihara, Inferring the temporal and spatial evolution of accent systems in Japanese dialects: a phylogeographic approach,roceedings of the Joint Conference on Language Evolution, 2022年9月5日"
+          },
+          {
+            "text": {
+              "name": "Nobusuke IWASAKI..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_4e6f627573",
+            "data-achievement": "Nobusuke IWASAKI, Kazunori HAYASHI, Toshihisa TANAKA, Miyuki KATORI, Ayaka ONOHARA, Takashi OGUCHI, Client-side Web Mapping system for vineyard suitability assessment, Free and Open Source Software for Geospatial (FOSS4G) Conference, 22-27/08/2022."
+          },
+          {
+            "text": {
+              "name": "N. Iwasaki..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_4e2e204977",
+            "data-achievement": "N. Iwasaki, K. Hayashi, T. Tanaka, M. Katori, A. Onohara, T. Oguchi, CLIENT-SIDE WEB MAPPING SYSTEM FOR VINEYARD SUITABILITY ASSESSMENT, XLVIII-4/W1-2022 223-228, 2022年8月5日  "
+          },
+          {
+            "text": {
+              "name": "Ayaka Onohara..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_4179616b61",
+            "data-achievement": "Ayaka Onohara, Takuya Takahashi, Yasuo Ihara,  Conditions for Japanese lexical-pitch accents to change from a complex to a simpler state, European Human Behavior & Evolution Association, the Max Planck Institute for Evolutionary Anthropology, Leipzig, Germany, 19-22/04/2022. ≪poster≫"
+          },
+          {
+            "text": {
+              "name": "Takuya Takahashi..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2022_54616b7579",
+            "data-achievement": "Takuya Takahashi, Ayaka Onohara, Yasuo Ihara, Bayesian analysis of human dialects in the presence of horizontal transmission ― application of coalescent and phylogenic models, BIOLOGY22, Basel, Switzerland, 02/2022.  ≪poster≫"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2021"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "高橋拓也..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2021_e9ab98e6a98be68b93e4b99f2c",
+            "data-achievement": "高橋拓也, 小野原彩香, 井原泰雄, ネットワーク上の文化伝達モデルによる日本語アクセント様式の変異率・系統関係の推定,  第14回日本人間行動進化学会, zoom開催, 12/2021.    ≪ポスター≫"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2020"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2020_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 日本人はアクセントで内集団を見分けるか？また、どう振舞うか？, 文部科学省　科研研究費補助金　新学術領域研究　共創的コミュニケーションのための言語進化学　若手の会「非言語的コミュニケーションと言語的コミュニケーション」, zoom開催, 09/2020"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2020_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 「意味を伝える語彙」と「意味を伝えることもあるけれど伝わらなくても構わないアクセント」の違いが示すものとは？, 文部科学省　科研研究費補助金　新学術領域研究　共創的コミュニケーションのための言語進化学　第6回領域全体会議, zoom開催, 09/2020"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2018"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2018_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香,  真似しにくい形質としてのアクセントの協力・協調行動における機能, 第11回日本人間行動進化学会, 高知工科大学, 12/2018.    ≪ポスター≫"
+          },
+          {
+            "text": {
+              "name": "柏原アクセント及びGame theory 調査..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2018_e69f8fe58e9fe382a2e382afe382bb",
+            "data-achievement": "柏原アクセント及びGame theory 調査, 学術調査立案・実施, (滋賀県米原市柏原) 2018年9月25日 - 2018年11月17日"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2018_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香,  使用目的別に見る言語進化の速度と分岐メカニズム解明のために, 文部科学省　科研研究費補助金　新学術領域研究　共創的コミュニケーションのための言語進化学　第1回 領域全体会議, ”新学術研究領域「共創言語進化」第1回領域全体会議、ホテルシーパレスリゾート（愛知県・豊橋市）, 3/2018"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2017"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2017_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 日本列島における情動表現と行動表現についての系統復元と分岐メカニズム, 第10回　日本人間行動進化学会, 名古屋工業大学, 12/2017.    ≪ポスター≫"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2016"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2016_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 井原泰雄, 語彙・文法の獲得/損失における人口規模の役割, 第9回　日本人間行動進化学会, 金沢文化ホール, 12/2016.     ≪ポスター≫"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2016_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 言語の消失と獲得に関連する環境・社会的要因, 地理情報システム学会 第25回研究発表大会, 立正大学, 10/2016.     ≪ポスター≫"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2016_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 言語の消失と獲得に関連する環境・社会的要因, 地理情報システム学会第25回研究発表大会論文集, 一般社団法人 地理情報システム学会, Vol.25,（CD-ROM） , 2016. 《大会論文集》"
+          },
+          {
+            "text": {
+              "name": "岐阜県関ケ原町今須中学校アクセント調査..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2016_e5b290e9989ce79c8ce996a2e382b1",
+            "data-achievement": "岐阜県関ケ原町今須中学校アクセント調査, 学術調査立案・実施, 2016年9月21日 - 2016年10月4日"
+          },
+          {
+            "text": {
+              "name": "Nobusuke Iwasaki..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2016_4e6f627573",
+            "data-achievement": "Nobusuke Iwasaki, David S. Sprague, Ayaka Onohara, Classification of land use/cover change in the Kanto region, Japan using FOSS4G and Open Data, Free and Open Source Software for Geospatial (FOSS4G) Conference, Proceedings: Vol. 16, Article 13. DOI: https://doi.org/10.7275/R5PN93TQ, Bonn, Germany, pp. 130-132（3頁）, 08/2016.     ≪poster≫"
+          },
+          {
+            "text": {
+              "name": "はびろネット..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2016_e381afe381b3e3828de3838de38383",
+            "data-achievement": "はびろネット, 「滋賀、岐阜県境を超えた方言ハンドブック」, 2015年度「まいばら協働事業提案制度」採託事業, pp. 1-31, 2016年発行（分析協力）,web上での紹介, 『滋賀・岐阜県境を超えた方言ハンドブック』ができました！, http://habiro.web.fc2.com/menu8.html"
+          },
+          {
+            "text": {
+              "name": "はびろネット、小野原彩香、杉崎好洋、滋賀・岐阜県境を越えた方..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2016_e381afe381b3e3828de3838de38383",
+            "data-achievement": "はびろネット、小野原彩香、杉崎好洋、滋賀・岐阜県境を越えた方言アンケート調査報告、2015年度「まいばら協働事業提案制度」採託事業, pp. 1-34, 2016."
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2015"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "滋賀・岐阜県境方言調査..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2015_e6bb8be8b380e383bbe5b290e9989c",
+            "data-achievement": "滋賀・岐阜県境方言調査, 学術調査立案・実施, はびろネット (米原市、関ヶ原市) 2015年11月21日 - 2015年12月20日"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2015_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 言語変化を統計学的観点から考える, 人類学演習/人類学セミナーⅠ･Ⅱ(人類学談話会), 01/2015.   "
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2014"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2014_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 矢野環 「雑誌「行動計量学」における言語に関する投稿論文の傾向―投稿論文の時系列変化と「計量国語学」論文との比較」, 『テキストマイニングによる言語研究』, ひつじ書房, pp. 1-20, 2014."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2014_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 数理的アプローチからの言語変化と外言語的要素との関わりに関する研究, 博士(文化情報学) ,同志社大学, 2014-03-22, http://doi.org/10.14988/di.2017.0000016166"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2013"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "土山玄..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2013_e59c9fe5b1b1e78e842c20",
+            "data-achievement": "土山玄, 谷岡健資, 小野原彩香, 大森崇, 連携校学部シラバスの全容と同志社大学文化情報学部「データサイエンス科目」のアンケート調査, 2013年度 統計関連学会連合大会, 09/2013."
+          },
+          {
+            "text": {
+              "name": "Ayaka Onohara..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2013_4179616b61",
+            "data-achievement": "Ayaka Onohara, Mami Murata, Tamaki Yano, Shinsuke Kishie, Phylogenetic Analyses about Historical Dynamics of Accentual Systems in Shodo Island, Japan, The 19th International Congress of Linguists, the University of Geneva, abstract, 07/2013.   ≪poster≫"
+          },
+          {
+            "text": {
+              "name": "Mami MURATA..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2013_4d616d6920",
+            "data-achievement": "Mami MURATA, Ayaka Onohara, Shinsuke Kishie, The dialect accent of Shodo Island in Kagawa Prefecture, Shikoku, Japan, The 19th International Congress of Linguists, the University of Geneva, 07/2013.   ≪poster≫"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2013_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 名詞から見た『行動計量学』・『計量国語学』投稿論文の特徴抽出および比較, 第12回文歌情報学研究科研究発表会, 同志社大学, 03/2013."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2013_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 谷岡健資, 土山玄, 大森崇, 統計教育に関する授業内容の傾向と学生の授業評価―統計教育質保証に関する分析調査―, 文化情報学, 同志社大学文化情報学会, Vol.9  , No.1 ,pp. 1-11, 2013, http://doi.org/10.14988/pa.2017.0000014563"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2013_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 名詞から見た『行動計量学』・『計量国語学』投稿論文の特徴抽出および比較, 第12回文歌情報学研究科研究発表会, 同志社大学, 文化情報学会, vol.12, pp.20-23, 2013."
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2012"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 揖斐川上流域の語彙に関する系統推定, 第94回 人文科学とコンピュータ研究会発表会研究報告, 一般社団法人 情報処理学会, 2012-CH-094 , (本文所在：http://id.nii.ac.jp/1001/00082405/ 6ページ), 2012.     《研究報告》"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 小豆島アクセントの系統学的分析―地理的・年代的状況に即して―, 第11回文歌情報学研究科研究発表会, 同志社大学, 文化情報学会, vol.11, pp.51-52, 2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 小豆島アクセントの系統学的分析―地理的・年代的状況に即して―, 第11回文歌情報学研究科研究発表会, , 同志社大学, 10/2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 揖斐川上流域における語彙の類型と地理的分布, 文化情報学, 同志社大学文化情報学会, Vol.8 , No.1 ,pp.1-11, 2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 方言分布データの数理的分析, 日本行動計量学会 第40回大会 抄録集(セッション名：方言分布と計量), pp.415-418, 2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 方言分布データの数理的分析, 日本行動計量学会 第40回大会(セッション名：特別セッション 方言分布と計量), 4, 新潟県立大学, 09/2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 谷岡健資, 土山玄, 大森崇. 第1章 連携校学部シラバスの全容, 大学間連携共同推進事業連携大学(編) カリキュラム策定委員会 報告書 第2部 連携大学における統計学の学部授業実態調査, 文部科学省 平成24年度大学間連携共同教育推進事業 「データに基づく課題解決型人材育成に資する統計教育質保証」 統計教育大学関連携ネットワーク, pp. 1-30, 2013."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 谷岡健資, 土山玄, 大森崇. 第2章 同志社大学文化情報学部「データサイエンス科目」のアンケート調査, 大学間連携共同推進事業連携大学(編) カリキュラム策定委員会 報告書 第2部 連携大学における統計学の学部授業実態調査, 文部科学省 平成24年度大学間連携共同教育推進事業 「データに基づく課題解決型人材育成に資する統計教育質保証」 統計教育大学関連携ネットワーク, pp. 31-58, 2013."
+          },
+          {
+            "text": {
+              "name": "小野原彩香 (2012) イベントレポート（1）「日本行動計..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香 (2012) イベントレポート（1）「日本行動計量学会 第40回大会」『人文情報学月報』 第14号"
+          },
+          {
+            "text": {
+              "name": "小野原彩香 (2012) イベントレポート（1）「DIALE..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香 (2012) イベントレポート（1）「DIALEKT 2.0 & WBOE100」『人文情報学月報』 第13号（後編）"
+          },
+          {
+            "text": {
+              "name": "Ayaka ONOHARA..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_4179616b61",
+            "data-achievement": "Ayaka ONOHARA, Geometrical and Topological Analysis for Dialect Distribution: A Mathematical Approach in Tokuyama District, 7th SIDG(International Society for Dialectology and Geolinguistics) CONGRESS, AUSTRIAN ACADEMY OF SCIENCES, 07/2012.  "
+          },
+          {
+            "text": {
+              "name": "Ayaka Onohara..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_4179616b61",
+            "data-achievement": "Ayaka Onohara, Geometrical and Topological Analysis for Dialect Distribution: A Mathematical Approach in Tokuyama District, 7th SIDG International Society for Dialectology and Geolinguistics CONGRESS, p.165, 2012.     《abstract》"
+          },
+          {
+            "text": {
+              "name": "小野原彩香 (2012年5月12日) 「空間自己回帰モデルの..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香 (2012年5月12日) 「空間自己回帰モデルの方言データへの応用例」 Kyotanabe.R+#1（於 同志社大学）"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 揖斐川上流域の語彙に関する系統推定, 第94回 人文科学とコンピュータ研究会発表会, 4, 同志社大学, 05/2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 定量的側面からの言語形式と外言語的要素の関係―岐阜県徳山村の地理的要因と民俗的要因を例として―, 変異理論研究会, 奈良大学, 04/2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村における地理的ネットワーク分析と言語的距離, 国立国語研究所 時空間変異研究系 合同研究発表会 JLVC2012 予稿集, 大学共同利用機関法人 国立国語研究所 時空間変異系, pp.43-46, 2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村における地理的ネットワーク分析と言語的距離, 国立国語研究所 時空間変異研究系 合同研究発表会 JLVC2012, 国立国語研究所, 03/2012.   ≪poster≫"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 地理空間上における方言と民俗事象の分布様相, 第10回文化情報学研究科研究発表会, 同志社大学 文化情報学会, vol.10, pp.19-22, 2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 地理空間上における方言と民俗事象の分布様相, 文化情報学会 第10回文化情報学研究科研究発表会, 9, 同志社大学, 03/2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香 (2012年2月12日) 「Rで方言のネットワー..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香 (2012年2月12日) 「Rで方言のネットワーク分析」 Osaka.R #7（於 大阪大学）"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 旧徳山村周辺地域の語彙に関する数理的側面からの再検討, 第１回 知識・芸術・文化情報学研究会, 発表３, 立命館大学, 01/2012."
+          },
+          {
+            "text": {
+              "name": "小野原彩香 (2012) イベントレポート（3）第1回「知識..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2012_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香 (2012) イベントレポート（3）第1回「知識・芸術・文化情報学研究会」『人文情報学月報』 第6号"
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2011"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村におけるアクセント様相と交通状況との関係性―ネットワーク分析を用いたアクセント分布と交通状況の類似性の算出―, 情報処理学会 人文科学とコンピュータ研究会「じんもんこん2011―「デジタル・アーカイブ」再考」, 3C-2, 龍谷大学, 12/2011."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村におけるアクセント様相と交通状況との関係性―ネットワーク分析を用いたアクセント分布と交通状況の類似性の算出―, 情報処理学会シンポジウムシリーズ 人文科学とコンピュータシンポジウム論文集 「デジタル・アーカイブ」再考―いま改めて問う記録・保存・活用の技術―, 一般社団法人 情報処理学会, Vol.2011, No.8, pp. 219-224, (本文所在：http://id.nii.ac.jp/1001/00079410/), 2011."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村における言語動態についての空間的検討(2), 学生・若手 地理空間情報フォーラム 若手技術者・研究者のための技術研究発表会2011年度大会, 建設交流館, 11/2011.     ≪ポスター≫"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村における言語動態についての空間的検討(2), 若手技術者・研究者のための技術研究発表会2011年度大会 論文集, (USB 6ページ), 2011."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村における言語動態についての空間的検討, 地理情報システム学会第20回研究発表大会論文集, 一般社団法人 地理情報システム学会, Vol.20,  2011. 《大会論文集》, http://www.gisa-japan.org/conferences/proceedings/2011/conference_2011.html"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県旧徳山村における言語動態についての空間的検討, 地理情報システム学会 第20回研究発表大会, 鹿児島大学, 10/2011."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 集落の交通路からの距離と言語変異に関する定量的分析, 第9回文化情報学研究科研究発表会, 同志社大学 文化情報学会, vol.9, pp. 49-50, 2011."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 集落の交通路からの距離と言語変異に関する定量的分析, 文化情報学会 第９回文化情報学研究科研究発表会, 18, 同志社大学, 10/2011."
+          },
+          {
+            "text": {
+              "name": "小野原彩香 (2011年7月23日). GIS＋R勉強会GI..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香 (2011年7月23日). GIS＋R勉強会GIS and r 015 チュートリアル（配布資料 R-tips.xlsx） http://www.osgeo.jp/wiki/index.php?title=Gis_and_r_015"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2011_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県方言を基盤とした文化事象の流通・伝播メカニズム解明のための方法―文化のメタモデル設計と正規化圧縮距離を用いた文化流通・伝播の分析―, 同志社大学 文化情報学, 同志社大学 文化情報学会, Vol.6 No.1≪別冊≫, pp.58-59, 2011."
+          }
+        ]
+      },
+      {
+        "text": {
+          "name": "2010"
+        },
+        "children": [
+          {
+            "text": {
+              "name": "藤本悠，小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e897a4e69cace682a0efbc8ce5b08f",
+            "data-achievement": "藤本悠，小野原彩香, ITMAにおけるNCDの実用性とUMLを用いた分析プロセスの可視化と共有化について, 情報処理学会シンポジウムシリーズ 人文科学とコンピュータシンポジウム論文集 人文工学の可能性～異分野融合による「実質化」の方法～, 一般社団法人 情報処理学会, Vol.2010, No.15 , pp. 239-246, (本文所在：http://id.nii.ac.jp/1001/00090135/), 2010."
+          },
+          {
+            "text": {
+              "name": "藤本悠，小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e897a4e69cace682a0efbc8ce5b08f",
+            "data-achievement": "藤本悠，小野原彩香, ITMAにおけるNCDの実用性とUMLを用いた分析プロセスの可視化と共有化について, 人文科学とコンピュータシンポジウム 「じんもんこん２０１０」 人文工学の可能性 ～異分野融合による「実質化」の方法～, A4-4, 東京工業大学, 12/2010."
+          },
+          {
+            "text": {
+              "name": "学生・若手 地理空間情報フォーラム 2010年度大会「学生・..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5ada6e7949fe383bbe88ba5e6898b",
+            "data-achievement": "学生・若手 地理空間情報フォーラム 2010年度大会「学生・若手 地理空間情報フォーラム in 関西 2010年度大会」実行委員"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県方言語彙による仮想的文化領域抽出と語彙変化の方向―メタモデルとNormalized Compression Distanceを用いて―, 学生・若手 地理空間情報フォーラム in 関西 論文集, 学生・若手 地理空間情報フォーラム in 関西, pp.51-58, 2010."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県方言語彙による仮想的文化領域抽出と語彙変化の方向―メタモデルとNormalized Compression Distanceを用いて―, 学生・若手 地理空間情報フォーラム in 関西, S_1_10, 同志社大学, 11/2010.     ≪ポスター≫"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県方言への正規化圧縮距離の適用および有効性の確認―多角的視点から文化現象を捉えるには―, 第7回 文化情報学研究科研究発表会, 同志社大学 文化情報学会, vol.7, pp.6-7, 2010."
+          },
+          {
+            "text": {
+              "name": "小野原彩香，藤本悠..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香，藤本悠, 方言分布から見た文化事象の流通と滞留―岐阜県における方言分布の事例―, 地理情報システム学会第19回研究発表大会, 5C-1, 立命館大学, 10/2010."
+          },
+          {
+            "text": {
+              "name": "小野原彩香，藤本悠..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香，藤本悠, 方言分布から見た文化事象の流通と滞留―岐阜県における方言分布の事例―, 地理情報システム学会講演論文集, 一般社団法人 地理情報システム学会, Vol.19, pp.473-480, 2010. 《大会論文集》, http://www.gisa-japan.org/conferences/proceedings/2010/conference_2010.html"
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県方言への正規化圧縮距離の適用および有効性の確認―多角的視点から文化現象を捉えるには―, 文化情報学会 第7回 文化情報学研究科研究発表会, 4, 同志社大学, 10/2010."
+          },
+          {
+            "text": {
+              "name": "小野原彩香，藤本悠，矢野環..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香，藤本悠，矢野環, 文化的情報の流通路とその滞留―岐阜県を例とした方言分布の観点から―, G空間EXPO/地理空間情報フォーラム 学生フォーラム, 11, パシフィコ横浜, 09/2010.     ≪ポスター≫"
+          },
+          {
+            "text": {
+              "name": "小野原彩香，藤本悠，矢野環..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香，藤本悠，矢野環, 文化的情報の流通路とその滞留―岐阜県を例とした方言分布の観点から―, G空間EXPO/地理空間情報フォーラム 学生フォーラム2010 論文集, 地理空間情報フォーラム 学生フォーラム, pp.89-96, 2010."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 総合的観点からの文化事象の流通路と滞留―岐阜県方言をベースとして―, 日本写真測量学会. 関西支部 第６回若手による技術研究発表会, A-3, 常翔学園大阪センター, 08/2010."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県における文化事象の流通路とその滞留―土器と方言から情報ネットワークを探る―, 文化情報学会 第６回 文化情報学研究科研究発表会, 4, 同志社大学, 03/2010."
+          },
+          {
+            "text": {
+              "name": "小野原彩香..."
+            },
+            "HTMLclass": "leafNode",
+            "HTMLid": "node_2010_e5b08fe9878ee58e9fe5bda9e9a699",
+            "data-achievement": "小野原彩香, 岐阜県における文化事象の流通路とその滞留―土器と方言から情報ネットワークを探る―, 第6回 文化情報学研究科研究発表会, 同志社大学 文化情報学会, vol.6, pp.6-7, 2010."
+          }
+        ]
+      }
+    ]
+  }
+};
+        new Treant(chart_config);
+
+        // ポップアップ表示の追加
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.leafNode').forEach(node => {
+                node.addEventListener('click', function () {
+                    alert(this.getAttribute('data-achievement'));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
