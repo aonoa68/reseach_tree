@@ -1,24 +1,31 @@
 {
   "name": "文化進化",
+  "icon": "🧠",
   "children": [
     {
       "name": "言語進化",
+      "color": "green",
+      "icon": "🗣️",
       "children": [
-        { "name": "論文A（2022）" },
-        { "name": "国際学会発表B（2023）" }
+        { "name": "論文A（2022）", "icon": "📄" },
+        { "name": "国際学会発表B（2023）", "icon": "🌍" }
       ]
     },
     {
       "name": "文化ニッチ構築",
+      "color": "blue",
+      "icon": "🏠",
       "children": [
-        { "name": "査読付き論文C（2024）" }
+        { "name": "査読付き論文C（2024）", "icon": "✅" }
       ]
     },
     {
       "name": "GIS×感情分析",
+      "color": "purple",
+      "icon": "🗺️",
       "children": [
-        { "name": "WCTP2025 投稿予定論文" },
-        { "name": "GISA2025 投稿予定論文" }
+        { "name": "WCTP2025 投稿予定論文", "icon": "📝" },
+        { "name": "GISA2025 投稿予定論文", "icon": "📝" }
       ]
     }
   ]
