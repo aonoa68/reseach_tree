@@ -1,43 +1,52 @@
-const width = 960;
-const height = 600;
+const width = 800;
+const height = 800;
+const radius = width / 2;
 
 const svg = d3.select("#tree-container")
   .append("svg")
   .attr("width", width)
-  .attr("height", height);
-
-const g = svg.append("g").attr("transform", "translate(40,40)");
+  .attr("height", height)
+  .append("g")
+  .attr("transform", `translate(${radius},${radius})`);
 
 d3.json("data.json").then(data => {
   const root = d3.hierarchy(data);
-  const treeLayout = d3.tree().size([height - 80, width - 160]);
-  treeLayout(root);
+  const tree = d3.tree().size([2 * Math.PI, radius - 100]);
+  tree(root);
 
-  g.selectAll("line")
+  // 曲線リンク
+  svg.append("g")
+    .selectAll("path")
     .data(root.links())
-    .enter()
-    .append("line")
-    .attr("x1", d => d.source.y)
-    .attr("y1", d => d.source.x)
-    .attr("x2", d => d.target.y)
-    .attr("y2", d => d.target.x)
-    .attr("stroke", "#555");
+    .enter().append("path")
+    .attr("fill", "none")
+    .attr("stroke", d => d.target.data.color || "#ccc")
+    .attr("stroke-width", 2)
+    .attr("d", d3.linkRadial()
+      .angle(d => d.x)
+      .radius(d => d.y)
+    );
 
-  g.selectAll("circle")
+  // ノード
+  const node = svg.append("g")
+    .selectAll("g")
     .data(root.descendants())
-    .enter()
-    .append("circle")
-    .attr("cx", d => d.y)
-    .attr("cy", d => d.x)
+    .enter().append("g")
+    .attr("transform", d => `
+      rotate(${d.x * 180 / Math.PI - 90})
+      translate(${d.y},0)
+    `);
+
+  node.append("circle")
     .attr("r", 5)
-    .attr("fill", "#e74c3c");
+    .attr("fill", d => d.data.color || "#e74c3c");
 
-  g.selectAll("text")
-    .data(root.descendants())
-    .enter()
-    .append("text")
-    .attr("x", d => d.y + 8)
-    .attr("y", d => d.x + 4)
-    .text(d => d.data.name)
-    .attr("font-size", "14px");
+  node.append("text")
+    .attr("dy", "0.31em")
+    .attr("x", d => d.x < Math.PI === !d.children ? 8 : -8)
+    .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+    .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+    .text(d => `${d.data.icon || ""} ${d.data.name}`)
+    .style("font-size", "13px")
+    .style("fill", "#333");
 });
