@@ -1,14 +1,1151 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>研究業績ツリー</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小野原彩香の研究成長樹</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Sans JP", "游ゴシック", "Yu Gothic", sans-serif;
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc8 30%, #f1f8e9 70%, #e8f5e8 100%);
+            min-height: 100vh;
+            color: #2e5233;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(76, 175, 80, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 195, 74, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-title h1 {
+            font-size: 2.8em;
+            color: #1b5e20;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(76, 175, 80, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #4a7c59;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            border: 2px solid #c8e6c9;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .tree-svg {
+            width: 100%;
+            height: 1000px;
+            min-width: 1200px;
+            cursor: move;
+        }
+
+        .node {
+            cursor: pointer;
+        }
+
+        .node-circle {
+            transition: all 0.3s ease;
+        }
+
+        .node:hover .node-circle {
+            stroke-width: 4;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .node-text {
+            font-family: "Noto Sans JP", sans-serif;
+            pointer-events: none;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.8));
+        }
+
+        .link {
+            fill: none;
+            stroke: #5d4037;
+            transition: all 0.3s ease;
+        }
+
+        .link:hover {
+            stroke: #4a2c2a;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .link.has-papers {
+            stroke: #8d6e63;
+        }
+
+        .paper-indicator {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .paper-indicator:hover {
+            transform: scale(1.2);
+        }
+
+        .paper-tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 255, 248, 0.95));
+            border: 2px solid #8bc34a;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 0.85em;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1001;
+            max-width: 500px;
+            min-width: 300px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .paper-tooltip.visible {
+            opacity: 1;
+        }
+
+        .paper-tooltip h4 {
+            color: #1b5e20;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #c8e6c9;
+            padding-bottom: 8px;
+        }
+
+        .paper-item {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: rgba(139, 195, 74, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #66bb6a;
+        }
+
+        .paper-title {
+            font-weight: 600;
+            color: #2e5233;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            font-size: 0.9em;
+        }
+
+        .paper-meta {
+            color: #4a7c59;
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        .paper-count {
+            background: #66bb6a;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #c8e6c9;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.9em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #a5d6a7;
+        }
+
+        .info-section h3 {
+            color: #1b5e20;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .collaboration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .collaboration-item {
+            background: linear-gradient(135deg, rgba(139, 195, 74, 0.1), rgba(165, 214, 167, 0.1));
+            border: 1px solid rgba(129, 199, 132, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .collaboration-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(129, 199, 132, 0.2);
+        }
+
+        .timeline-items {
+            display: grid;
+            gap: 15px;
+        }
+
+        .timeline-item {
+            background: linear-gradient(135deg, rgba(102, 187, 106, 0.1), rgba(129, 199, 132, 0.1));
+            border: 1px solid rgba(139, 195, 74, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 5px solid #66bb6a;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(139, 195, 74, 0.2);
+        }
+
+        .year {
+            font-weight: 600;
+            color: #2e5233;
+            font-size: 1.1em;
+        }
+
+        .chart-note {
+            text-align: center;
+            color: #4a7c59;
+            font-style: italic;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(139, 195, 74, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(139, 195, 74, 0.2);
+        }
+
+        .legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #c8e6c9;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.85em;
+            z-index: 10;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+        }
+
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .legend-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #c8e6c9;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.85em;
+            z-index: 10;
+        }
+
+        .controls button {
+            background: #66bb6a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .controls button:hover {
+            background: #4caf50;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .main-title h1 {
+                font-size: 2.2em;
+            }
+            
+            .tree-svg {
+                height: 700px;
+            }
+            
+            .main-title {
+                padding: 20px;
+            }
+            
+            .chart-container {
+                padding: 20px;
+            }
+            
+            .legend {
+                position: static;
+                margin-bottom: 20px;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>研究業績ツリー</h1>
-  <div id="tree-container"></div>
-  <script src="tree.js"></script>
+    <div class="container">
+        <div class="main-title">
+            <h1>🌳 小野原彩香の研究成長樹</h1>
+            <div class="subtitle">根から幹、枝を経て葉へと成長する研究の系統発生 - 力学的配置により自然に広がる知識の樹</div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #6d4c41;"></div>
+                    <span>根っこ：研究者</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #8d6e63;"></div>
+                    <span>幹：主要研究分野</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #66bb6a;"></div>
+                    <span>枝：詳細研究領域</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #ff6b6b;"></div>
+                    <span>葉：論文（年表示）</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="restart-simulation">配置をリセット</button>
+                <button id="freeze-simulation">配置を固定</button>
+            </div>
+            <svg class="tree-svg" id="tree-chart"></svg>
+            <div class="chart-note">
+                🌳 力学的配置により自然に広がる研究系統樹<br>
+                🔍 ノードをドラッグして配置を調整できます。各要素をホバーして詳細をご覧ください
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>📅 研究発展の時系列</h3>
+            <div class="timeline-items">
+                <div class="timeline-item">
+                    <span class="year">2024年:</span> 対話型AIモデルと音声技術の教育応用
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2023年:</span> ベイジアン系統発生解析論文 (Journal of Language Evolution)
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2022年:</span> 進化的アプローチによるアクセント機能研究開始
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2018-2023年:</span> 集団構造を考慮した言語変化プロセス研究
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2016-2019年:</span> 言語変化要因と系譜の定量的評価研究
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2013-2017年:</span> 数理的アプローチによる言語動態研究（博士研究）
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2010-2013年:</span> 方言分布・文化領域分析の基礎研究
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+    <div class="paper-tooltip" id="paper-tooltip"></div>
+
+    <script>
+        // 研究データ（論文情報付き）- 論文を第4階層として追加 
+        const treeData = {
+            name: '小野原彩香',
+            description: '言語学・文化進化・データサイエンス研究者',
+            level: 0,
+            children: [
+                {
+                    name: '言語進化研究',
+                    description: 'ベイジアン系統発生解析・アクセント研究',
+                    level: 1,
+                    children: [
+                        { 
+                            name: 'アクセント系統発生学', 
+                            description: 'ベイジアン系統発生解析によるピッチアクセントシステム', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: 'Bayesian phylogenetic analysis of pitch-accent systems based on accentual class merger: a new method applied to Japanese dialects',
+                                    journal: 'Journal of Language Evolution',
+                                    year: '2024',
+                                    details: '8(2) 169-191, 査読有り'
+                                },
+                                {
+                                    title: 'Inferring the temporal and spatial evolution of accent systems in Japanese dialects: a phylogeographic approach',
+                                    journal: 'Proceedings of the Joint Conference on Language Evolution',
+                                    year: '2022',
+                                    details: '査読有り'
+                                }
+                            ]
+                        },
+                        { 
+                            name: '方言の時空間変異', 
+                            description: '日本語方言のアクセントシステムの時空間進化', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '言語の消失と獲得に関連する環境・社会的要因',
+                                    journal: 'GIS－理論と応用',
+                                    year: '2016',
+                                    details: '24(2), 招待有り'
+                                },
+                                {
+                                    title: '日本語方言の推定されたアクセント類別の併合率の系統地理',
+                                    journal: 'GIS－理論と応用',
+                                    year: '2016',
+                                    details: '24(2), 招待有り'
+                                },
+                                {
+                                    title: 'ネットワーク上の文化伝達モデルによる日本語アクセント様式の変異率・系統関係の推定',
+                                    journal: '国立国語研究所 時空間変異研究系 合同研究発表会 JLVC2012 予稿集',
+                                    year: '2012',
+                                    details: '43-46, 査読有り'
+                                }
+                            ]
+                        },
+                        { 
+                            name: '言語変化モデル', 
+                            description: '数理的アプローチによる言語動態', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '数理的アプローチからの言語変化と外言語的要素との関わりに関する研究',
+                                    journal: '',
+                                    year: '2014',
+                                    details: '査読有り筆頭著者'
+                                },
+                                {
+                                    title: '交通系統計情報の分布と言語外的要素に関する研究',
+                                    journal: '情報処理学会シンポジウム論文集',
+                                    year: '2010',
+                                    details: '2010(15) 239-246, 査読有り'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: '文化進化理論',
+                    description: '文化伝達モデル・定量分析',
+                    level: 1,
+                    children: [
+                        { 
+                            name: '文化多様性機構', 
+                            description: '文化的多様性の進化メカニズム', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '雑誌「行動計量学」における言語に関する投稿論文の傾向',
+                                    journal: '日本行動計量学会大会発表論文抄録集',
+                                    year: '2012',
+                                    details: '40 415-418'
+                                }
+                            ]
+                        },
+                        { 
+                            name: '文化伝達ネットワーク', 
+                            description: 'ネットワーク上の文化伝達モデル', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: 'ITMAにおけるNCDの実用性とUMLを用いた分析プロセスの可視化と共有について',
+                                    journal: '情報処理学会シンポジウム論文集',
+                                    year: '2010',
+                                    details: '2010(15) 239-246, 査読有り'
+                                },
+                                {
+                                    title: '岐阜県旧徳山村におけるアクセント様相と交通状況との関係性-ネットワーク分析を用いたアクセント分布と交通状況の類似性の算出-',
+                                    journal: '情報処理学会シンポジウム論文集',
+                                    year: '2011',
+                                    details: '2011(8) 219-224, 査読有り筆頭著者'
+                                }
+                            ]
+                        },
+                        { 
+                            name: '定量的方言学', 
+                            description: '岐阜県方言語彙による文化領域抽出', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '岐阜県方言語彙による仮想的文化領域抽出と語彙変化の方向',
+                                    journal: '研究報告人文科学とコンピュータ（CH）',
+                                    year: '2012',
+                                    details: '2012(4) 1-6, 筆頭著者'
+                                },
+                                {
+                                    title: '揖斐川上流域における語彙の類型と地理的分布',
+                                    journal: '文化情報学',
+                                    year: '2012',
+                                    details: '8(1) 1-11, 査読有り筆頭著者'
+                                },
+                                {
+                                    title: '揖斐川上流域の語彙に関する系統推定',
+                                    journal: '研究報告人文科学とコンピュータ（CH）',
+                                    year: '2012',
+                                    details: '2012(4) 1-6'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'GIS・空間分析',
+                    description: '地理情報システム・機械学習応用',
+                    level: 1,
+                    children: [
+                        { 
+                            name: 'ワイン栽培適地', 
+                            description: '機械学習を用いたワイン用ブドウ栽培適地推定', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '機械学習を用いたワイン用ブドウ栽培適地の推定',
+                                    journal: 'GIS-理論と応用',
+                                    year: '2023',
+                                    details: '31(2) 78-78, 招待有り'
+                                },
+                                {
+                                    title: 'CLIENT-SIDE WEB MAPPING SYSTEM FOR VINEYARD SUITABILITY ASSESSMENT',
+                                    journal: 'The International Archives of the Photogrammetry, Remote Sensing and Spatial Information Sciences',
+                                    year: '2022',
+                                    details: 'XLVIII-4/W1-2022 223-228, 査読有り'
+                                }
+                            ]
+                        },
+                        { 
+                            name: '空間言語学', 
+                            description: '言語変化の地理的パターン', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '言語の消失と獲得に関連する環境・社会的要因',
+                                    journal: '地理情報システム学会講演論文集(CD-ROM)',
+                                    year: '2016',
+                                    details: '25 40-40, 筆頭著者責任著者'
+                                },
+                                {
+                                    title: '方言分布から見た文化事象の流通と滞留―岐阜県における方言分布の事例―',
+                                    journal: '地理情報システム学会講演論文集(CD-ROM)',
+                                    year: '2010',
+                                    details: '19, 473-480'
+                                }
+                            ]
+                        },
+                        { 
+                            name: '文化地理学', 
+                            description: '文化事象の流通と滞留分析', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: 'Classification of land use/cover change in the Kanto region, Japan using FOSS4G and Open Data',
+                                    journal: 'Free and Open Source Software for Geospatial (FOSS4G) Conference Proceedings',
+                                    year: '2016',
+                                    details: '13(16), 査読有り'
+                                },
+                                {
+                                    title: '文化的情報の流通路とその滞留―岐阜県を例とした方言分布の観点から―',
+                                    journal: '学生・若手 地理空間情報フォーラム in 関西 論文集',
+                                    year: '2010',
+                                    details: '51-58, 筆頭著者'
+                                },
+                                {
+                                    title: '方言分布データの数理的分析(特別セッション 方言分布と計量(2))',
+                                    journal: '日本行動計量学会大会発表論文抄録集',
+                                    year: '2012',
+                                    details: '40, 415-418'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'AI・教育技術',
+                    description: 'データサイエンス教育・AI応用',
+                    level: 1,
+                    children: [
+                        { 
+                            name: 'AI教育コンテンツ', 
+                            description: '対話型AIモデルの教育応用', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '対話型AIモデル並びにAI音声を活用した教育コンテンツ作成 ―AI技術の新たな展開―',
+                                    journal: '社会と統計',
+                                    year: '2024',
+                                    details: '(10) 27-44'
+                                }
+                            ]
+                        },
+                        { 
+                            name: 'データサイエンス教育', 
+                            description: '統計教育の質保証研究', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: '統計教育に関する授業内容の傾向と学生の授業評価：統計教育質保証に関する分析調査',
+                                    journal: '文化情報学',
+                                    year: '2013',
+                                    details: '9(1) 1-11, 査読有り'
+                                },
+                                {
+                                    title: '連携校学部シラバスの全容と同志社大学文化情報学部「データサイエンス科目」のアンケート調査',
+                                    journal: '文化情報学',
+                                    year: '2012',
+                                    details: '8(1) 1-11, 査読有り筆頭著者'
+                                }
+                            ]
+                        },
+                        { 
+                            name: 'Python GIS教材', 
+                            description: 'Python地理総合実習コンテンツ', 
+                            level: 2,
+                            papers: [
+                                {
+                                    title: 'Python を利用した地理総合実習コンテンツの作成',
+                                    journal: '日本地理学会発表要旨集',
+                                    year: '2023',
+                                    details: '2023s. P007'
+                                },
+                                {
+                                    title: '方言分布から見た文化事象の流通と滞留―岐阜県における方言分布の事例―',
+                                    journal: '情報処理学会シンポジウム論文集',
+                                    year: '2011',
+                                    details: '2011(8) 219-224, 査読有り筆頭著者'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        class TreeChart {
+            constructor(svgId, data) {
+                this.svgElement = document.getElementById(svgId);
+                this.data = data;
+                this.tooltip = document.getElementById('tooltip');
+                this.paperTooltip = document.getElementById('paper-tooltip');
+                this.width = 1200;
+                this.height = 1000;
+                this.nodeRadius = { 0: 30, 1: 20, 2: 15, 3: 8 };
+                this.fontSize = { 0: '16px', 1: '12px', 2: '10px', 3: '8px' };
+                this.init();
+            }
+
+            init() {
+                // D3.jsでSVGを設定
+                this.svg = d3.select(this.svgElement)
+                    .attr('viewBox', `0 0 ${this.width} ${this.height}`);
+                
+                // 背景のグラデーション定義
+                const defs = this.svg.append('defs');
+                const gradient = defs.append('radialGradient')
+                    .attr('id', 'treeGradient')
+                    .attr('cx', '50%')
+                    .attr('cy', '100%')
+                    .attr('r', '100%');
+                
+                gradient.append('stop')
+                    .attr('offset', '0%')
+                    .attr('stop-color', '#8d6e63')
+                    .attr('stop-opacity', 0.1);
+                
+                gradient.append('stop')
+                    .attr('offset', '100%')
+                    .attr('stop-color', '#66bb6a')
+                    .attr('stop-opacity', 0.05);
+                
+                // 背景を追加
+                this.svg.append('rect')
+                    .attr('width', this.width)
+                    .attr('height', this.height)
+                    .attr('fill', 'url(#treeGradient)');
+                
+                this.processData();
+                this.createForceSimulation();
+                this.setupControls();
+            }
+
+            processData() {
+                const nodes = [];
+                const links = [];
+                let nodeId = 0;
+                const height = this.height;
+                const width = this.width;
+                
+                // ルートノード
+                const root = {
+                    id: nodeId++,
+                    name: this.data.name,
+                    description: this.data.description,
+                    level: 0,
+                    x: width / 2,
+                    y: height - 100,
+                    fx: width / 2,  // 固定X座標
+                    fy: height - 100  // 固定Y座標（下部）
+                };
+                nodes.push(root);
+
+                // 再帰的にノードとリンクを作成
+                const processChildren = (parent, children, level) => {
+                    if (!children) return;
+                    
+                    children.forEach((child, i) => {
+                        const node = {
+                            id: nodeId++,
+                            name: child.name,
+                            description: child.description,
+                            level: level,
+                            papers: child.papers || []
+                        };
+                        
+                        // レベルに応じて初期座標を設定
+                        if (level === 1) {
+                            node.x = width / 2;
+                            node.y = height - 250;
+                        } else if (level === 2) {
+                            node.x = width / 2;
+                            node.y = height - 500;
+                        } else {
+                            node.x = width / 2;
+                            node.y = height - 750;
+                        }
+                        
+                        nodes.push(node);
+                        
+                        // リンクを作成（第3階層への遷移の場合のみpapersを含める）
+                        if (parent.level === 1 && child.papers && child.papers.length > 0) {
+                            links.push({ source: parent.id, target: node.id, papers: child.papers });
+                        } else {
+                            links.push({ source: parent.id, target: node.id });
+                        }
+                        
+                        // 子ノードを処理
+                        if (child.children) {
+                            processChildren(node, child.children, level + 1);
+                        }
+                        
+                        // 論文ノードを追加（第4階層）
+                        if (child.papers && child.papers.length > 0 && level === 2) {
+                            const maxPapers = 5;
+                            const papersToShow = Math.min(child.papers.length, maxPapers);
+                            
+                            child.papers.slice(0, papersToShow).forEach((paper, k) => {
+                                const paperNode = {
+                                    id: nodeId++,
+                                    name: paper.year,
+                                    description: paper.title,
+                                    level: 3,
+                                    paper: paper,
+                                    x: node.x || width / 2,  // 親ノードのX座標を使用
+                                    y: height - 750  // 論文は最上部
+                                };
+                                nodes.push(paperNode);
+                                links.push({ source: node.id, target: paperNode.id });
+                            });
+                            
+                            // 追加の論文ノード
+                            if (child.papers.length > maxPapers) {
+                                const moreNode = {
+                                    id: nodeId++,
+                                    name: `+${child.papers.length - maxPapers}`,
+                                    description: `他${child.papers.length - maxPapers}件の論文`,
+                                    level: 3,
+                                    morePapers: child.papers.slice(maxPapers),
+                                    x: node.x || width / 2,  // 親ノードのX座標を使用
+                                    y: height - 750
+                                };
+                                nodes.push(moreNode);
+                                links.push({ source: node.id, target: moreNode.id });
+                            }
+                        }
+                    });
+                };
+
+                processChildren(root, this.data.children, 1);
+                
+                this.nodes = nodes;
+                this.links = links;
+                
+                // デバッグ用：ノードとリンクの数を確認
+                console.log('Total nodes:', this.nodes.length);
+                console.log('Total links:', this.links.length);
+            }
+
+            createForceSimulation() {
+                // ノードIDとインデックスのマップを作成
+                this.nodeMap = {};
+                this.nodes.forEach((node, i) => {
+                    this.nodeMap[node.id] = i;
+                });
+                
+                // 力学シミュレーションを作成
+                this.simulation = d3.forceSimulation(this.nodes)
+                    .force('link', d3.forceLink(this.links)
+                        .id(d => d.id)
+                        .distance(d => {
+                            // レベルに応じてリンクの長さを調整
+                            const sourceNode = typeof d.source === 'object' ? d.source : this.nodes.find(n => n.id === d.source);
+                            const targetNode = typeof d.target === 'object' ? d.target : this.nodes.find(n => n.id === d.target);
+                            if (!sourceNode || !targetNode) return 100;
+                            
+                            if (sourceNode.level === 0) return 200;
+                            if (sourceNode.level === 1) return 180;
+                            if (sourceNode.level === 2) return 120;
+                            return 80;
+                        })
+                        .strength(0.8))
+                    .force('charge', d3.forceManyBody()
+                        .strength(d => {
+                            // レベルに応じて反発力を調整
+                            if (d.level === 0) return -2000;
+                            if (d.level === 1) return -1500;
+                            if (d.level === 2) return -1000;
+                            return -600;
+                        }))
+                    .force('x', d3.forceX(d => {
+                        // レベルごとに異なるX方向の中心を設定
+                        return this.width / 2;
+                    }).strength(0.02))
+                    .force('y', d3.forceY(d => {
+                        // Y方向の力を調整して階層構造を維持
+                        if (d.level === 0) return this.height - 100;
+                        if (d.level === 1) return this.height - 250;
+                        if (d.level === 2) return this.height - 500;
+                        return this.height - 750;
+                    }).strength(0.5))
+                    .force('collision', d3.forceCollide()
+                        .radius(d => this.nodeRadius[d.level] + 20));
+
+                // リンクを描画
+                const linkGroup = this.svg.append('g').attr('class', 'links');
+                const link = linkGroup.selectAll('path')
+                    .data(this.links)
+                    .enter().append('path')
+                    .attr('class', d => d.papers && d.papers.length > 0 ? 'link has-papers' : 'link')
+                    .attr('stroke', '#5d4037')
+                    .attr('stroke-width', d => {
+                        const sourceNode = typeof d.source === 'object' ? d.source : this.nodes.find(n => n.id === d.source);
+                        if (!sourceNode) return 2;
+                        if (sourceNode.level === 0) return 6;
+                        if (sourceNode.level === 1) return 4;
+                        return 2;
+                    })
+                    .attr('fill', 'none');
+
+                // ノードグループを作成
+                const nodeGroup = this.svg.append('g').attr('class', 'nodes');
+                const node = nodeGroup.selectAll('g')
+                    .data(this.nodes)
+                    .enter().append('g')
+                    .attr('class', 'node')
+                    .call(d3.drag()
+                        .on('start', (event, d) => this.dragstarted(event, d))
+                        .on('drag', (event, d) => this.dragged(event, d))
+                        .on('end', (event, d) => this.dragended(event, d)));
+
+                // ノードの円を追加
+                node.append('circle')
+                    .attr('r', d => this.nodeRadius[d.level])
+                    .attr('class', d => `node-circle level-${d.level}`)
+                    .attr('fill', d => {
+                        if (d.level === 0) return '#6d4c41';
+                        if (d.level === 1) return '#8d6e63';
+                        if (d.level === 2) return '#66bb6a';
+                        return '#ff6b6b';
+                    })
+                    .attr('stroke', '#ffffff')
+                    .attr('stroke-width', 3);
+
+                // ノードのテキストを追加（縁取り付き）
+                node.append('text')
+                    .attr('class', 'node-text')
+                    .attr('fill', 'white')
+                    .attr('font-size', d => this.fontSize[d.level])
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'central')
+                    .attr('stroke', '#2e5233')
+                    .attr('stroke-width', '3px')
+                    .attr('paint-order', 'stroke')
+                    .text(d => d.name);
+                
+                // 前面のテキスト（白色）
+                node.append('text')
+                    .attr('class', 'node-text')
+                    .attr('fill', 'white')
+                    .attr('font-size', d => this.fontSize[d.level])
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'central')
+                    .text(d => d.name);
+
+                // ホバーイベント
+                node.on('mouseenter', (event, d) => this.showTooltip(event, d))
+                    .on('mouseleave', () => this.hideTooltip())
+                    .on('mousemove', (event) => this.updateTooltipPosition(event));
+
+                // 論文がある枝にインジケーターを追加
+                const paperIndicators = linkGroup.selectAll('.paper-indicator')
+                    .data(this.links.filter(d => d.papers && d.papers.length > 0))
+                    .enter().append('g')
+                    .attr('class', 'paper-indicator-group');
+
+                paperIndicators.append('circle')
+                    .attr('r', 6)
+                    .attr('fill', '#ff6b6b')
+                    .attr('class', 'paper-indicator')
+                    .on('mouseenter', (event, d) => {
+                        const targetNode = typeof d.target === 'object' ? d.target : this.nodes.find(n => n.id === d.target);
+                        if (targetNode) {
+                            this.showPaperTooltip(event, d.papers, targetNode.name);
+                        }
+                    })
+                    .on('mouseleave', () => this.hidePaperTooltip())
+                    .on('mousemove', (event) => this.updatePaperTooltipPosition(event));
+
+                paperIndicators.append('text')
+                    .attr('fill', 'white')
+                    .attr('font-size', '10px')
+                    .attr('font-weight', 'bold')
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'central')
+                    .attr('pointer-events', 'none')
+                    .attr('stroke', '#8b0000')
+                    .attr('stroke-width', '2px')
+                    .attr('paint-order', 'stroke')
+                    .text(d => d.papers.length);
+
+                // シミュレーションのティック処理
+                this.simulation.on('tick', () => {
+                    // リンクを曲線で描画
+                    link.attr('d', d => {
+                        const source = d.source;
+                        const target = d.target;
+                        if (!source || !target) return '';
+                        const midY = (source.y + target.y) / 2;
+                        return `M${source.x},${source.y} C${source.x},${midY} ${target.x},${midY} ${target.x},${target.y}`;
+                    });
+
+                    // ノードの位置を更新
+                    node.attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+                    // 論文インジケーターの位置を更新
+                    paperIndicators.attr('transform', d => {
+                        if (!d.source || !d.target) return '';
+                        const midX = (d.source.x + d.target.x) / 2;
+                        const midY = (d.source.y + d.target.y) / 2;
+                        return `translate(${midX}, ${midY})`;
+                    });
+                });
+
+                this.link = link;
+                this.node = node;
+                this.paperIndicators = paperIndicators;
+            }
+
+            dragstarted(event, d) {
+                if (!event.active) this.simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            dragended(event, d) {
+                if (!event.active) this.simulation.alphaTarget(0);
+                // レベル0（ルート）は固定
+                if (d.level !== 0) {
+                    d.fx = null;
+                    d.fy = null;
+                }
+            }
+
+            setupControls() {
+                document.getElementById('restart-simulation').addEventListener('click', () => {
+                    // 全ノードの固定を解除してシミュレーションを再開
+                    this.nodes.forEach(d => {
+                        if (d.level !== 0) {
+                            d.fx = null;
+                            d.fy = null;
+                        }
+                    });
+                    this.simulation.alpha(1).restart();
+                });
+
+                document.getElementById('freeze-simulation').addEventListener('click', () => {
+                    // 現在の位置で全ノードを固定
+                    this.nodes.forEach(d => {
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    });
+                });
+            }
+
+            showTooltip(event, node) {
+                let content = `<strong>${node.name}</strong><br>${node.description}`;
+                if (node.paper) {
+                    content = `<strong>${node.paper.title}</strong><br>${node.paper.journal} ${node.paper.year}<br>${node.paper.details}`;
+                } else if (node.morePapers) {
+                    content = `<strong>追加の論文</strong><br>`;
+                    node.morePapers.forEach(paper => {
+                        content += `・${paper.title}<br>`;
+                    });
+                }
+                this.tooltip.innerHTML = content;
+                this.tooltip.classList.add('visible');
+                this.updateTooltipPosition(event);
+            }
+
+            hideTooltip() {
+                this.tooltip.classList.remove('visible');
+            }
+
+            updateTooltipPosition(event) {
+                this.tooltip.style.left = `${event.clientX + 10}px`;
+                this.tooltip.style.top = `${event.clientY - 10}px`;
+            }
+
+            showPaperTooltip(event, papers, categoryName) {
+                let html = `<h4>📚 ${categoryName} の論文一覧 <span class="paper-count">${papers.length}</span></h4>`;
+                
+                papers.forEach(paper => {
+                    html += `
+                        <div class="paper-item">
+                            <div class="paper-title">${paper.title}</div>
+                            <div class="paper-meta">
+                                ${paper.journal} ${paper.year} ${paper.details}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                this.paperTooltip.innerHTML = html;
+                this.paperTooltip.classList.add('visible');
+                this.updatePaperTooltipPosition(event);
+            }
+
+            hidePaperTooltip() {
+                this.paperTooltip.classList.remove('visible');
+            }
+
+            updatePaperTooltipPosition(event) {
+                const tooltipRect = this.paperTooltip.getBoundingClientRect();
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                let left = event.clientX + 15;
+                let top = event.clientY - 15;
+                
+                if (left + tooltipRect.width > windowWidth) {
+                    left = event.clientX - tooltipRect.width - 15;
+                }
+                
+                if (top + tooltipRect.height > windowHeight) {
+                    top = windowHeight - tooltipRect.height - 10;
+                }
+                
+                this.paperTooltip.style.left = `${left}px`;
+                this.paperTooltip.style.top = `${top}px`;
+            }
+        }
+
+        // ページ読み込み完了時に系統樹を作成
+        document.addEventListener('DOMContentLoaded', function() {
+            new TreeChart('tree-chart', treeData);
+        });
+    </script>
 </body>
 </html>
