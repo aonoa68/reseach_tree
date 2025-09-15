@@ -320,8 +320,8 @@
 
         .legend {
             position: absolute;
-            bottom: 60px;
-            left: 300px;
+            bottom: 20px; /* 修正 */
+            left: 20px; /* 変更なし */
             background: #ffffff;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
@@ -1287,7 +1287,7 @@
                     })
                     .style('filter', d => {
                         if (d.level === 0) return 'url(#goldLeaf)';  // 根ノードに金箔効果
-                        if (d.level === 1) return 'url(#bronze)';     // 第1階層にブロンズ効果
+                        if (d.level === 1) return 'url(#bronze)';    // 第1階層にブロンズ効果
                         return null;
                     });
 
@@ -1385,6 +1385,37 @@
 
                 // 葉っぱの色を控えめに
                 
+                // 論文がある枝にインジケーターを追加
+                const paperIndicators = linkGroup.selectAll('.paper-indicator')
+                    .data(this.links.filter(d => d.papers && d.papers.length > 0))
+                    .enter().append('g')
+                    .attr('class', 'paper-indicator-group');
+
+                paperIndicators.append('circle')
+                    .attr('r', 6)
+                    .attr('fill', '#2563eb')
+                    .attr('class', 'paper-indicator')
+                    .on('mouseenter', (event, d) => {
+                        const targetNode = typeof d.target === 'object' ? d.target : this.nodes.find(n => n.id === d.target);
+                        if (targetNode) {
+                            this.showPaperTooltip(event, d.papers, targetNode.name);
+                        }
+                    })
+                    .on('mouseleave', () => this.hidePaperTooltip())
+                    .on('mousemove', (event) => this.updatePaperTooltipPosition(event));
+
+                paperIndicators.append('text')
+                    .attr('fill', '#000000')
+                    .attr('font-size', '10px')
+                    .attr('font-weight', 'bold')
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'central')
+                    .attr('pointer-events', 'none')
+                    .attr('stroke', '#ffffff')
+                    .attr('stroke-width', '2px')
+                    .attr('paint-order', 'stroke')
+                    .text(d => d.papers.length);
+
                 // 論文ノードに結晶装飾を追加
                 const paperNodes = node.filter(d => d.paper);
                 
@@ -1481,37 +1512,6 @@
                         }
                     });
                 });
-
-                // 論文がある枝にインジケーターを追加
-                const paperIndicators = linkGroup.selectAll('.paper-indicator')
-                    .data(this.links.filter(d => d.papers && d.papers.length > 0))
-                    .enter().append('g')
-                    .attr('class', 'paper-indicator-group');
-
-                paperIndicators.append('circle')
-                    .attr('r', 6)
-                    .attr('fill', '#2563eb')
-                    .attr('class', 'paper-indicator')
-                    .on('mouseenter', (event, d) => {
-                        const targetNode = typeof d.target === 'object' ? d.target : this.nodes.find(n => n.id === d.target);
-                        if (targetNode) {
-                            this.showPaperTooltip(event, d.papers, targetNode.name);
-                        }
-                    })
-                    .on('mouseleave', () => this.hidePaperTooltip())
-                    .on('mousemove', (event) => this.updatePaperTooltipPosition(event));
-
-                paperIndicators.append('text')
-                    .attr('fill', '#000000')
-                    .attr('font-size', '10px')
-                    .attr('font-weight', 'bold')
-                    .attr('text-anchor', 'middle')
-                    .attr('dominant-baseline', 'central')
-                    .attr('pointer-events', 'none')
-                    .attr('stroke', '#ffffff')
-                    .attr('stroke-width', '2px')
-                    .attr('paint-order', 'stroke')
-                    .text(d => d.papers.length);
 
                 // シミュレーションのティック処理
                 this.simulation.on('tick', () => {
@@ -1642,101 +1642,4 @@
 
             setupControls() {
                 document.getElementById('restart-simulation').addEventListener('click', () => {
-                    this.nodes.forEach(d => {
-                        if (d.level !== 0) {
-                            d.fx = null;
-                            d.fy = null;
-                        }
-                    });
-                    this.simulation.alpha(1).restart();
-                });
-
-                document.getElementById('freeze-simulation').addEventListener('click', () => {
-                    this.nodes.forEach(d => {
-                        d.fx = d.x;
-                        d.fy = d.y;
-                    });
-                });
-
-                document.getElementById('reset-zoom').addEventListener('click', () => {
-                    this.svg.transition()
-                        .duration(750)
-                        .call(this.zoom.transform, d3.zoomIdentity.scale(0.85));
-                });
-            }
-
-            showTooltip(event, node) {
-                let content = `<strong>${node.name}</strong><br>${node.description}`;
-                if (node.paper) {
-                    content = `<strong>${node.paper.title}</strong><br>${node.paper.journal} ${node.paper.year}<br>${node.paper.details}`;
-                } else if (node.morePapers) {
-                    content = `<strong>追加の論文</strong><br>`;
-                    node.morePapers.forEach(paper => {
-                        content += `・${paper.title}<br>`;
-                    });
-                }
-                this.tooltip.innerHTML = content;
-                this.tooltip.classList.add('visible');
-                this.updateTooltipPosition(event);
-            }
-
-            hideTooltip() {
-                this.tooltip.classList.remove('visible');
-            }
-
-            updateTooltipPosition(event) {
-                this.tooltip.style.left = `${event.clientX + 10}px`;
-                this.tooltip.style.top = `${event.clientY - 10}px`;
-            }
-
-            showPaperTooltip(event, papers, categoryName) {
-                let html = `<h4>📚 ${categoryName} の論文一覧 <span class="paper-count">${papers.length}</span></h4>`;
-                
-                papers.forEach(paper => {
-                    html += `
-                        <div class="paper-item">
-                            <div class="paper-title">${paper.title}</div>
-                            <div class="paper-meta">
-                                ${paper.journal} ${paper.year} ${paper.details}
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                this.paperTooltip.innerHTML = html;
-                this.paperTooltip.classList.add('visible');
-                this.updatePaperTooltipPosition(event);
-            }
-
-            hidePaperTooltip() {
-                this.paperTooltip.classList.remove('visible');
-            }
-
-            updatePaperTooltipPosition(event) {
-                const tooltipRect = this.paperTooltip.getBoundingClientRect();
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
-                
-                let left = event.clientX + 15;
-                let top = event.clientY - 15;
-                
-                if (left + tooltipRect.width > windowWidth) {
-                    left = event.clientX - tooltipRect.width - 15;
-                }
-                
-                if (top + tooltipRect.height > windowHeight) {
-                    top = windowHeight - tooltipRect.height - 10;
-                }
-                
-                this.paperTooltip.style.left = `${left}px`;
-                this.paperTooltip.style.top = `${top}px`;
-            }
-        }
-
-        // ページ読み込み完了時に系統樹を作成
-        document.addEventListener('DOMContentLoaded', function() {
-            new TreeChart('tree-chart', treeData);
-        });
-    </script>
-</body>
-</html>
+                    this.nodes.forEach(
