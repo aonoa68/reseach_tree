@@ -977,7 +977,7 @@
                     .force('charge', d3.forceManyBody()
                         .strength(d => {
                             // レベルに応じて反発力を調整（論文ノードは特に強く）
-                            if (d.level === 0) return -3000;
+                            if (d.level === 0) return -10000;
                             if (d.level === 1) return -2500;
                             if (d.level === 2) return -2000;
                             if (d.level === 3) return -1500;
