@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小野原彩香の研究系統樹</title>
+    <title>小野原彩香の研究成長樹</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&display=swap');
@@ -49,7 +49,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 30px 20px;
         }
@@ -100,6 +100,12 @@
             height: 1000px;
             min-width: 1600px;
             cursor: move;
+        }
+        
+        .svg-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
         }
 
         .node {
@@ -365,6 +371,7 @@
             margin: 0 5px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.85em;
         }
 
         .controls button:hover {
@@ -405,9 +412,8 @@
 <body>
     <div class="container">
         <div class="main-title">
-            <h1>小野原彩香の研究系統樹</h1>
+            <h1>🌳 小野原彩香の研究成長樹</h1>
             <div class="subtitle">根から幹、枝を経て葉へと成長する研究の系統発生 - 力学的配置により自然に広がる知識の樹</div>
-            <p><a href="https://en.wikipedia.org/wiki/The_Tree_of_Life,_Stoclet_Frieze">クリムトの生命の樹</a>、<a href="[https://tarabooks.com/shop/the-night-life-of-trees/]">夜の木</a>、<a href="[https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%81%E3%83%A2%E3%83%81%E3%81%AE%E6%9C%A8]">モチモチの樹</a>などをイメージして作成しています。</p>
         </div>
         
         <div class="chart-container">
@@ -466,6 +472,7 @@
             <div class="controls">
                 <button id="restart-simulation">配置をリセット</button>
                 <button id="freeze-simulation">配置を固定</button>
+                <button id="reset-zoom">表示をリセット</button>
             </div>
             <svg class="tree-svg" id="tree-chart"></svg>
             <div class="chart-note">
@@ -732,8 +739,24 @@
                 this.svg = d3.select(this.svgElement)
                     .attr('viewBox', `0 0 ${this.width} ${this.height}`);
                 
+                // ズーム機能を追加
+                this.g = this.svg.append('g');
+                
+                // ズーム動作を定義
+                this.zoom = d3.zoom()
+                    .scaleExtent([0.5, 2])  // ズーム範囲: 50%〜200%
+                    .on('zoom', (event) => {
+                        this.g.attr('transform', event.transform);
+                    });
+                
+                // SVGにズーム動作を適用
+                this.svg.call(this.zoom);
+                
+                // 初期ズームを少し縮小して全体が見えるようにする
+                this.svg.call(this.zoom.transform, d3.zoomIdentity.scale(0.85));
+                
                 // 背景のグラデーション定義
-                const defs = this.svg.append('defs');
+                const defs = this.g.append('defs');
                 const gradient = defs.append('radialGradient')
                     .attr('id', 'treeGradient')
                     .attr('cx', '50%')
@@ -780,17 +803,17 @@
                     .attr('opacity', 0.2);
                 
                 // 背景を追加
-                this.svg.append('rect')
+                this.g.append('rect')
                     .attr('width', this.width)
                     .attr('height', this.height)
                     .attr('fill', 'url(#treeGradient)')
                     .on('click', () => {
                         // 背景クリックですべてのテキストの固定を解除
-                        this.svg.selectAll('.node-text').classed('fixed', false).classed('visible', false);
+                        this.g.selectAll('.node-text').classed('fixed', false).classed('visible', false);
                     });
                 
                 // 装飾パターンレイヤー
-                this.svg.append('rect')
+                this.g.append('rect')
                     .attr('width', this.width)
                     .attr('height', this.height)
                     .attr('fill', 'url(#klimtPattern)')
@@ -837,13 +860,13 @@
                         
                         // レベルに応じて初期座標を設定
                         if (level === 1) {
-                            node.x = width / 2;
+                            node.x = width / 2 + (Math.random() - 0.5) * 200;  // より中央寄りに
                             node.y = height - 250;
                         } else if (level === 2) {
-                            node.x = width / 2;
+                            node.x = width / 2 + (Math.random() - 0.5) * 400;  // 適度に分散
                             node.y = height - 500;
                         } else {
-                            node.x = width / 2;
+                            node.x = width / 2 + (Math.random() - 0.5) * 600;  // 上部は少し広めに
                             node.y = height - 750;
                         }
                         
@@ -978,7 +1001,7 @@
                     .force('charge', d3.forceManyBody()
                         .strength(d => {
                             // レベルに応じて反発力を調整（論文ノードは特に強く）
-                            if (d.level === 0) return -10000;
+                            if (d.level === 0) return -3000;
                             if (d.level === 1) return -2500;
                             if (d.level === 2) return -2000;
                             if (d.level === 3) return -1500;
@@ -993,18 +1016,18 @@
                         if (d.paper) {
                             const year = parseInt(d.paper.year) || 2010;
                             const yearOffset = (year - 2010) / 14;
-                            // 新しい論文ほど外側に広がる（幅を広げる）
-                            const spread = (Math.random() - 0.5) * 300 * (1 + yearOffset);
+                            // 新しい論文ほど外側に広がる（幅を狭める）
+                            const spread = (Math.random() - 0.5) * 200 * (1 + yearOffset);
                             return this.width / 2 + spread;
                         }
                         
                         // 通常のノードも年代に基づいて少し横に広がる
                         const latestYear = getLatestYear(d);
                         const yearOffset = (latestYear - 2010) / 14;
-                        const spread = (Math.random() - 0.5) * 150 * yearOffset;
+                        const spread = (Math.random() - 0.5) * 100 * yearOffset;
                         
                         return this.width / 2 + spread;
-                    }).strength(0.03))
+                    }).strength(0.1))  // X方向の力を強める
                     .force('y', d3.forceY(d => {
                         // Y方向の力を調整して階層構造を維持
                         if (d.level === 0) return this.height - 100; // 根っこは固定
@@ -1041,7 +1064,7 @@
                         .strength(0.8));
 
                 // リンクを描画
-                const linkGroup = this.svg.append('g').attr('class', 'links');
+                const linkGroup = this.g.append('g').attr('class', 'links');
                 const link = linkGroup.selectAll('path')
                     .data(this.links)
                     .enter().append('path')
@@ -1059,7 +1082,7 @@
                     .attr('opacity', 0.8);
 
                 // ノードグループを作成
-                const nodeGroup = this.svg.append('g').attr('class', 'nodes');
+                const nodeGroup = this.g.append('g').attr('class', 'nodes');
                 const node = nodeGroup.selectAll('g')
                     .data(this.nodes)
                     .enter().append('g')
@@ -1386,6 +1409,13 @@
                         d.fx = d.x;
                         d.fy = d.y;
                     });
+                });
+
+                document.getElementById('reset-zoom').addEventListener('click', () => {
+                    // ズームを初期状態にリセット
+                    this.svg.transition()
+                        .duration(750)
+                        .call(this.zoom.transform, d3.zoomIdentity.scale(0.85));
                 });
             }
 
